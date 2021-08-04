@@ -1,0 +1,148 @@
+template[TEMP_QualificacaoLocador] {
+    metainfo {
+        language = "pt_BR",
+    }    
+    head {
+        title = "Qualificação de locadores de imóveis"
+        declarations {
+            +<numeroDoContrato> : String {
+                name = "Número do contrato"
+                request = "Insira o número do contrato"
+            },
+            +<dataDoContrato> : Date {
+                name = "Data"
+                request = "Insira a data de celebração do contrato"
+            },
+
+        }
+        operations {
+            print bold("Número:") & " " & <numeroDoContrato>,
+            print bold("Data:") & " " & <dataDoContrato>
+        }
+    }
+    body {
+       declarations {
+        +<sujeito> : Struct {
+        fields {
+            +[tipoDeSujeito] : List ("Pessoa natural", "Pessoa jurídica") {
+                name = "Tipo de sujeito"
+                request = "A parte locadora é..."
+                atomic = true
+                default = "Pessoa jurídica"
+            },
+            +[genero] : List ("Masculino", "Feminino") {
+                name = "Gênero"
+                request = "Indique o gênero da parte"
+                default = "Masculino"
+                atomic = true
+            }
+            if ([tipoDeSujeito] == "Pessoa natural") {
+                +[nome] : String {
+                    name = "Nome"
+                    request = "Qual o nome do locador? "
+                },
+                +[estadoCivil] : List ("Solteiro", "Casado", "Uniao Estével", "Viúvo"){
+                    name = "estado Civil"
+                    request = "Qual estado civil? "
+                },
+                +[enderecoCompleto] : String {
+                    name = "Endereço do locador"
+                    request = "Digite o endereço"
+                },
+                +[profissao] : String{
+                    name = "Profissão"
+                    request = "Insira a profissão do locador"
+                },
+                +[nacionalidade] : String{
+                    name = "Nacionalidade"
+                    request = "Insira a nacionalidade do locador"
+                },
+                +[rg] : String {
+                    name = "RG"
+                    request = "Insira o RG do locador"
+                },
+                +[cpf] : String {
+                    name = "CPF"
+                    request = "Insira o CPF do locador"
+                }
+            }
+            else {
+                +<razaoSocial> : String {
+                        name = "Nome da Razao Social"
+                        request = "Insira o nome da Razão Social da Pessoa Jurídica"
+                    },
+                +<cnpj> : String {
+                        name = "Número do CNPJ"
+                        request = "Insira o número do CNPJ"
+                    },
+                +<enderecoCompleto> : String {
+                        name = "Endereço da Pessoa Juridica"
+                        request = "Insira o endereço da Pessoa Jurídica"
+                    },
+                +<representantePessoaNatural> : struct [representantePessoaNatural] {
+                    name = "Nome da Pessoa responsável pelo CNPJ"
+                    request = "Insira o nome da Pessoa Natural responsável"
+                    fields {
+                        +[nome] : String {
+                            name = "Nome"
+                            request = "Qual o nome do locador? "
+                        },
+                        +[profissao] : String{
+                            name = "Profissão"
+                            request = "Insira a profissão do locador"
+                        },
+                        +[nacionalidade] : String{
+                            name = "Nacionalidade"
+                            request = "Insira a nacionalidade do locador"
+                        },
+                        +[rg] : String {
+                            name = "RG"
+                            request = "Insira o RG do locador"
+                        },
+                        +[cpf] : String {
+                            name = "CPF"
+                            request = "Insira o CPF do locador"
+                        }
+                    }
+                    }
+                }
+            }
+    }
+}  
+
+        }
+    },
+    +<parteCredora> : *Parte,
+    +<parteDevedora> : *Parte,
+    +|partesTerceiras| : Vector[*Parte]
+}
+            +<pessoaFisica> : *PessoaFisica
+            +<locador> : struct [locador]{
+                name = "nome do locador"
+                request = "Digite o nome do Locador: "
+            }
+            
+        }
+
+        operations {
+            print "Corpo do contrato..."
+        }
+    }
+    foot {
+        declarations {
+            +<advogadoQueAssina> : String,
+            +<oabDoAdvogado> : String,
+            +<dataAssinatura> : Date
+        }
+        operations {
+            print "Termos em que pede deferimento,\b\b",
+            print <advogadoQueAssina> & "\b",
+            print "OAB/SP no " & <oabDoAdvogado>
+        }
+    }
+    extra {
+        operations {
+            print "Template concluído."
+        }
+    }
+}
