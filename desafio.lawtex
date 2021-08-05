@@ -13,6 +13,50 @@ template[TEMP_QualificacaoLocador] {
                 name = "Data"
                 request = "Insira a data de celebração do contrato"
             },
+            +<dataInicio> : Date {
+                name = "Data do inicio da vigência do contrato"
+                request = "Insira a data de inicio do contrato de locação"
+            },
+            +<dataFinal> : Date {
+                name = "Data final da vigência do contrato"
+                request = "Digite a data do término do contrato"
+            },
+            +<tempoDeVigencia> : Integer {
+                name = "Tempo de vigência do contrato"
+                request = "Digite o tempo de vigência do contrato"
+            },
+            +<valorDoAluguel> : Currency {
+                name = "Valor do Aleguel"
+                request = "Digite o valor do aluguel"
+            },
+            +<imovel> : Struct {
+                fields {
+                    +[logradouro] : String {
+                        name = "Logradouro do imóvel"
+                        request = "Digite o logradouro do imóvel"
+                    },
+                    +[numero] : Integer {
+                        name = "Número do imóvel"
+                        request = "Digite o número do imóvel"
+                    },
+                    +[bairro] : String {
+                        name = "Bairro do imóvel"
+                        request = "Digite o bairro do imóvel"
+                    },
+                    +[cep] : Integer {
+                        name = "CEP do imóvel"
+                        request = "Digite o CEP do imóvel"
+                    },
+                    +[cidade] : String {
+                        name = "Cidade do imóvel"
+                        request = "Digite a cidade do imóvel"
+                    },
+                    +[estado] : String {
+                        name = "Estado da federação"
+                        request = "Digite o estado"
+                    }
+                }
+            }
 
         }
         operations {
@@ -21,71 +65,33 @@ template[TEMP_QualificacaoLocador] {
         }
     }
     body {
-       declarations {
-        +<sujeito> : Struct {
-        fields {
-            +[tipoDeSujeito] : List ("Pessoa natural", "Pessoa jurídica") {
-                name = "Tipo de sujeito"
-                request = "A parte locadora é..."
-                atomic = true
-                default = "Pessoa jurídica"
-            },
-            +[genero] : List ("Masculino", "Feminino") {
-                name = "Gênero"
-                request = "Indique o gênero da parte"
-                default = "Masculino"
-                atomic = true
-            }
-            if ([tipoDeSujeito] == "Pessoa natural") {
-                +[nome] : String {
-                    name = "Nome"
-                    request = "Qual o nome do locador? "
-                },
-                +[estadoCivil] : List ("Solteiro", "Casado", "Uniao Estével", "Viúvo"){
-                    name = "estado Civil"
-                    request = "Qual estado civil? "
-                },
-                +[enderecoCompleto] : String {
-                    name = "Endereço do locador"
-                    request = "Digite o endereço"
-                },
-                +[profissao] : String{
-                    name = "Profissão"
-                    request = "Insira a profissão do locador"
-                },
-                +[nacionalidade] : String{
-                    name = "Nacionalidade"
-                    request = "Insira a nacionalidade do locador"
-                },
-                +[rg] : String {
-                    name = "RG"
-                    request = "Insira o RG do locador"
-                },
-                +[cpf] : String {
-                    name = "CPF"
-                    request = "Insira o CPF do locador"
-                }
-            }
-            else {
-                +<razaoSocial> : String {
-                        name = "Nome da Razao Social"
-                        request = "Insira o nome da Razão Social da Pessoa Jurídica"
+        declarations {
+            +<sujeito> : Struct {
+                fields {
+                    +[tipoDeSujeito] : List ("Pessoa natural", "Pessoa jurídica") {
+                        name = "Tipo de sujeito"
+                        request = "A parte locadora é..."
+                        atomic = true
+                        default = "Pessoa jurídica"
                     },
-                +<cnpj> : String {
-                        name = "Número do CNPJ"
-                        request = "Insira o número do CNPJ"
-                    },
-                +<enderecoCompleto> : String {
-                        name = "Endereço da Pessoa Juridica"
-                        request = "Insira o endereço da Pessoa Jurídica"
-                    },
-                +<representantePessoaNatural> : struct [representantePessoaNatural] {
-                    name = "Nome da Pessoa responsável pelo CNPJ"
-                    request = "Insira o nome da Pessoa Natural responsável"
-                    fields {
+                    +[genero] : List ("Masculino", "Feminino") {
+                        name = "Gênero"
+                        request = "Indique o gênero da parte"
+                        default = "Masculino"
+                        atomic = true
+                    }
+                    if ([tipoDeSujeito] == "Pessoa natural") {
                         +[nome] : String {
                             name = "Nome"
                             request = "Qual o nome do locador? "
+                        },
+                        +[estadoCivil] : List ("Solteiro", "Casado", "Uniao Estével", "Viúvo"){
+                            name = "estado Civil"
+                            request = "Qual estado civil? "
+                        },
+                        +[enderecoCompleto] : String {
+                            name = "Endereço do locador"
+                            request = "Digite o endereço"
                         },
                         +[profissao] : String{
                             name = "Profissão"
@@ -104,45 +110,89 @@ template[TEMP_QualificacaoLocador] {
                             request = "Insira o CPF do locador"
                         }
                     }
+                    else {
+                        +<razaoSocial> : String {
+                                name = "Nome da Razao Social"
+                                request = "Insira o nome da Razão Social da Pessoa Jurídica"
+                            },
+                        +<cnpj> : String {
+                                name = "Número do CNPJ"
+                                request = "Insira o número do CNPJ"
+                            },
+                        +<enderecoCompleto> : String {
+                                name = "Endereço da Pessoa Juridica"
+                                request = "Insira o endereço da Pessoa Jurídica"
+                            },
+                        +<representantePessoaNatural> : struct [representantePessoaNatural] {
+                            name = "Nome da Pessoa responsável pelo CNPJ"
+                            request = "Insira o nome da Pessoa Natural responsável"
+                            fields {
+                                +[nome] : String {
+                                    name = "Nome"
+                                    request = "Qual o nome do locador? "
+                                },
+                                +[profissao] : String{
+                                    name = "Profissão"
+                                    request = "Insira a profissão do locador"
+                                },
+                                +[nacionalidade] : String{
+                                    name = "Nacionalidade"
+                                    request = "Insira a nacionalidade do locador"
+                                },
+                                +[rg] : String {
+                                    name = "RG"
+                                    request = "Insira o RG do locador"
+                                },
+                                +[cpf] : String {
+                                    name = "CPF"
+                                    request = "Insira o CPF do locador"
+                                }
+                            }
+                        }
                     }
                 }
             }
-    }
-}  
-
-        }
-    },
-    +<parteCredora> : *Parte,
-    +<parteDevedora> : *Parte,
-    +|partesTerceiras| : Vector[*Parte]
-}
-            +<pessoaFisica> : *PessoaFisica
-            +<locador> : struct [locador]{
-                name = "nome do locador"
-                request = "Digite o nome do Locador: "
-            }
-            
-        }
-
+        }     
         operations {
-            print "Corpo do contrato..."
+            print "\pLOCADOR " & <sujeito.nome> & ", " & <sujeito.nacionalidade> & ", " & <sujeito.estadoCivil> &  ",",
+            print & <sujeito.profissao> & ", portador da cédula de identidade R.G. nº" & <sujeito.rg> & ,
+            print "e CPF nº" & <sujeito.cpf> & ", residente e domiciliado à" & <sujeito.enderecoCompleto> &"\n\b"
+
+            print "\pCLÁUSULA PRIMEIRA - DO OBJETO DA LOCAÇÃO\n\b"
+            print "\pO objeto deste Contrato é a locação, para fins comerciais, nos termos da Lei n.º 8.245, de 18 de outubro de",
+            print "1991, conforme alterada (&quot;Lei de Locações&quot;), de imóvel situado à" & <imovel.logradouro> & ,
+            print "," & <imovel.numero> & "," & <imovel.bairro> & "," & <imovel.cep> & "," & <imovel.cidade> & ,
+            print "," & <imovel.estado> & "com área total de 100 (cem) metros quadrados - com 5 (cinco) vagas de garagem.\n\b"
+
+            print "\pCLÁUSULA SEGUNDA - DA DESTINAÇÃO DO IMÓVEL\n\b"
+            print "\pO LOCATÁRIO declara que o imóvel, ora locado, destina-se única e exclusivamente para o seu uso RESIDENCIAL.\n\b"
+            print "\pO LOCATÁRIO obriga por si e demais dependentes a cumprir e a fazer cumprir integralmente as disposições legais sobre o Condomínio, a sua Convenção e o seu Regulamento Interno.\n\b"
+
+            print "\pCLÁUSULA TERCEIRA - DO PRAZO DE VIGÊNCIA"
+            print "\p O prazo da locação é de" & <tempoDeVigencia> &   "meses, contados a partir de" & <dataInicio> &  ",encerrando-se em" & <dataFinal> &,
+            print "obrigando-se os Locatários, ao fim deste prazo, a restituir o Imóvel, independentemente de qualquer notificação..\n\b"
+
+            print "\pCLÁUSULA QUARTA - DA FORMA DE PAGAMENTO\n\b"
+            print "\pO aluguel mensal deverá ser pago até o dia 5 (cinco) do mês subsequente ao vencido.",
+            print "O valor total do aluguel será de" & <valorDoAluguel> & ", reajustados anualmente.\n\b"
+
+
         }
     }
     foot {
         declarations {
-            +<advogadoQueAssina> : String,
-            +<oabDoAdvogado> : String,
-            +<dataAssinatura> : Date
+            +<local> : String,
+            +<dataAssinatura> : Date,
+            +<locatarioAssinatura> : String,
+            +<locadorAssinatura> : String
+            +<testemunhaAssinatura> : String
         }
         operations {
-            print "Termos em que pede deferimento,\b\b",
-            print <advogadoQueAssina> & "\b",
-            print "OAB/SP no " & <oabDoAdvogado>
-        }
-    }
-    extra {
-        operations {
-            print "Template concluído."
+            print "\pAs partes elegem o foro de" & <local> & "para dirimirem qualquer litígio decorrente do presente termo.\n\b\b",
+            print <dataAssinatura> & <local> & "\b"
+            print <locatarioAssinatura> & "\b",
+            print <locadorAssinatura> & "\b",
+            print <testemunhaAssinatura> 
         }
     }
 }
